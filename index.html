@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo KAIRUITE SEALS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="brand">
+                <h1 id="brandLogo">🔧 KAIRUITE SEALS</h1>
+                <p id="brandSubtitle">Commitment to Quality, Attention to Detail</p>
+            </div>
+            <button onclick="editarEmpresa()" class="btn-config">⚙️ Configurar Empresa</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h2 id="catalogTitle">CATÁLOGO DIGITAL DE PRODUTOS</h2>
+            <p>Sistema completo de gerenciamento com email marketing integrado</p>
+        </section>
+
+        <section class="stats">
+            <div class="stat-card">
+                <span class="stat-number" id="totalItems">0 itens</span>
+                <span class="stat-label">Total de Produtos</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="totalPaginas">0 páginas</span>
+                <span class="stat-label">Páginas Analisadas</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="dataExtracao">---</span>
+                <span class="stat-label">Última Atualização</span>
+            </div>
+            <button onclick="abrirGerenciarCategorias()" class="btn-categories">📁 Categorias</button>
+            <button onclick="abrirEmailMarketing()" class="btn-email-marketing">📧 E-mail Marketing</button>
+        </section>
+
+        <section class="search-section">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="🔍 Buscar por código, categoria, material..." onkeyup="filtrarProdutos()">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="mostrarTodos()">📦 Todos</button>
+                <button class="filter-btn" onclick="filtrarPorCategoria('produto')">🔧 Produtos</button>
+                <button class="filter-btn" onclick="filtrarPorCategoria('texto')">📄 Textos</button>
+            </div>
+        </section>
+
+        <section id="catalogoContainer" class="catalogo-grid">
+            <div class="loading">🔄 Carregando catálogo...</div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 KAIRUITE SEALS | <a href="#" onclick="verPDFOriginal()">📄 Ver PDF Original</a></p>
+        </div>
+    </footer>
+
+    <!-- Modal PDF -->
+    <div id="pdfModal" class="modal" onclick="fecharPDF()">
+        <div class="modal-content modal-pdf" onclick="event.stopPropagation()">
+            <button class="btn-close" onclick="fecharPDF()">&times;</button>
+            <embed id="pdfViewer" type="application/pdf" width="100%" height="100%">
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
