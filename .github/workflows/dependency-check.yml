@@ -1,0 +1,44 @@
+name: Dependency Updates Check
+
+on:
+  schedule:
+    # Roda toda segunda-feira às 9h UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  check-updates:
+    name: Check for dependency updates
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Check for outdated packages
+        run: |
+          npm outdated || true
+          echo "📦 Verifique os pacotes acima para atualizações"
+
+      - name: Security audit
+        run: |
+          npm audit --audit-level=moderate
+        continue-on-error: true
+
+      - name: Create Issue if vulnerabilities found
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🔒 Vulnerabilidades de segurança detectadas',
+              body: 'O npm audit encontrou vulnerabilidades. Execute `npm audit fix` para corrigir.',
+              labels: ['security', 'dependencies']
+            })
