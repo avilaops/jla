@@ -1,0 +1,38 @@
+services:
+  # Backend API (Express + PostgreSQL)
+  - type: web
+    name: jla-importadora-api
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run api
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: jla-postgres
+          property: connectionString
+    healthCheckPath: /health
+
+  # Frontend (Next.js)
+  - type: web
+    name: jla-importadora-web
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        sync: false
+
+# Database PostgreSQL
+databases:
+  - name: jla-postgres
+    plan: free
+    databaseName: jla_importadora
+    user: jla_user
