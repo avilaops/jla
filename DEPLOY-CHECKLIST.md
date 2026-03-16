@@ -66,8 +66,10 @@ EMAIL_PASS=senha-app-gmail
 ### Frontend (jla-importadora-web)
 ```env
 NODE_ENV=production
-NEXT_PUBLIC_API_URL=https://jla-importadora-api.onrender.com
+NEXT_PUBLIC_API_URL=https://api.jla.avilaops.com
 ```
+
+*Nota: Use URL do Render se não configurar domínio para o backend*
 
 ---
 
@@ -76,6 +78,7 @@ NEXT_PUBLIC_API_URL=https://jla-importadora-api.onrender.com
 1. **PostgreSQL Database** → Criar e executar schema SQL
 2. **Backend API** → Configurar com DATABASE_URL
 3. **Frontend Web** → Configurar com NEXT_PUBLIC_API_URL do backend
+4. **Domínio Customizado** → Configurar `jla.avilaops.com` no frontend
 
 ---
 
@@ -97,11 +100,11 @@ http://localhost:3005                # Frontend
 ### Produção (Após Deploy)
 ```bash
 # Backend
-curl https://jla-importadora-api.onrender.com/health
-curl https://jla-importadora-api.onrender.com/api/produtos
+curl https://api.jla.avilaops.com/health
+curl https://api.jla.avilaops.com/api/produtos
 
 # Frontend
-https://jla-importadora-web.onrender.com
+https://jla.avilaops.com
 ```
 
 ---
@@ -138,7 +141,7 @@ api-server.js (Express) → /api/produtos
     ↓
 Next.js (SSR) → components/Products.tsx
     ↓
-Landing Page (Browser)
+Landing Page (https://jla.avilaops.com)
 ```
 
 ---
@@ -190,14 +193,35 @@ Landing Page (Browser)
 
 ---
 
-## 🆘 Suporte
+## 🔗 URLs Esperadas
 
-- **Documentação Render**: https://render.com/docs
-- **Guia completo**: [DEPLOY-RENDER.md](DEPLOY-RENDER.md)
-- **Schema SQL**: [database-schema.sql](database-schema.sql)
+Após deploy completo:
+
+```
+Frontend:     https://jla.avilaops.com (domínio customizado)
+Frontend Alt: https://jla-importadora-web.onrender.com
+Backend:      https://api.jla.avilaops.com (recomendado)
+Backend Alt:  https://jla-importadora-api.onrender.com
+
+Endpoints:
+- GET /health
+- GET /api/produtos
+- GET /api/categorias
+- GET /api/promocoes
+- GET /api/emails
+```
 
 ---
 
-**Status**: ✅ **PRONTO PARA DEPLOY**
+## 📝 Próximos Passos (Pós-Deploy)
 
-Todos os arquivos configurados e testados localmente. Siga o guia [DEPLOY-RENDER.md](DEPLOY-RENDER.md) para fazer o deploy.
+1. [ ] Testar todos os endpoints em produção
+2. [ ] Verificar logs do Render para erros
+3. [ ] **Configurar DNS**: CNAME `jla` → `jla-importadora-web.onrender.com`
+4. [ ] Aguardar propagação DNS (15-30 min)
+5. [ ] Verificar SSL do domínio `jla.avilaops.com`
+6. [ ] Adicionar mais produtos no banco
+7. [ ] Implementar formulário de contato funcional (envio email)
+8. [ ] Configurar Google Analytics
+9. [ ] Configurar backups do PostgreSQL
+10. [ ] Monitoramento de uptime

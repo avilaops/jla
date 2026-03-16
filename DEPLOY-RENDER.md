@@ -112,57 +112,17 @@ https://jla-importadora-api.onrender.com/api/produtos
 - [ ] `/api/categorias` retorna 3 categorias
 - [ ] Logs não mostram erros de conexão PostgreSQL
 
-### Frontend
-- [ ] Landing page carrega completamente
-- [ ] Seção "Produtos" mostra 3 cards com dados do banco
-- [ ] Menu de navegação funciona
-- [ ] Formulário de contato renderiza
-- [ ] Design responsivo funciona
+### Frontend (Após Deploy)
+```
+https://jla.avilaops.com (domínio customizado)
+https://jla-importadora-web.onrender.com (URL Render)
+```
 
----
-
-## 🔄 Atualizações Futuras
-
-Após cada commit no GitHub:
-1. Render detecta automaticamente
-2. Faz rebuild e redeploy automático
-3. ~2-5 minutos para atualizar
-
-Para forçar redeploy manual:
-- Dashboard → seu serviço → **"Manual Deploy"** → **"Deploy latest commit"**
-
----
-
-## 🐛 Troubleshooting
-
-### Erro: "Failed to fetch produtos"
-- Verifique se `NEXT_PUBLIC_API_URL` está correta
-- Teste a URL do backend diretamente
-
-### Erro: "Connection refused" (PostgreSQL)
-- Verifique se `DATABASE_URL` está correta
-- Confira se o banco está "Available" no dashboard
-
-### Erro: "Build failed"
-- Verifique os logs no Render
-- Confirme que `package.json` tem todos os scripts necessários
-- Verifique se todas as dependências estão no `package.json`
-
-### Backend mostra dados de exemplo (fallback)
-- Banco não está acessível
-- Execute o schema SQL no PostgreSQL
-- Verifique `DATABASE_URL`
-
----
-
-## 📊 Limites do Plano Free
-
-- **Web Services**: spin down após 15 min de inatividade (primeiro request demora ~30s)
-- **PostgreSQL**: 90 dias de inatividade = deletado, 256MB RAM, 1GB disco
-- **Banda**: 100GB/mês
-- **Build**: 500 min/mês
-
-Para produção séria, considere upgrade para plano pago.
+### Backend
+```
+https://api.jla.avilaops.com (domínio customizado)
+https://jla-importadora-api.onrender.com (URL Render)
+```
 
 ---
 
@@ -171,8 +131,9 @@ Para produção séria, considere upgrade para plano pago.
 Após deploy completo:
 
 ```
-Backend API:  https://jla-importadora-api.onrender.com
-Frontend Web: https://jla-importadora-web.onrender.com
+Frontend Web: https://jla.avilaops.com (domínio customizado)
+Backend API:  https://api.jla.avilaops.com (recomendado)
+              https://jla-importadora-api.onrender.com (alternativa)
 
 Endpoints:
 - GET /health
@@ -181,6 +142,40 @@ Endpoints:
 - GET /api/promocoes
 - GET /api/emails
 ```
+
+---
+
+## 🌐 Configurar Domínio Customizado (jla.avilaops.com)
+
+### Para o Frontend
+
+1. No Render Dashboard, acesse o serviço **jla-importadora-web**
+2. Vá em **Settings** → **Custom Domain**
+3. Clique em **"Add Custom Domain"**
+4. Digite: `jla.avilaops.com`
+5. Render mostrará os registros DNS necessários
+
+### Configurar DNS (no seu provedor)
+
+No painel DNS do domínio `avilaops.com`, adicione:
+
+```
+Tipo    Nome    Valor
+CNAME   jla     jla-importadora-web.onrender.com
+```
+
+**OU** se preferir usar o backend com subdomínio também:
+
+```
+Tipo    Nome    Valor
+CNAME   jla     jla-importadora-web.onrender.com
+CNAME   api.jla jla-importadora-api.onrender.com
+```
+
+### Aguardar Propagação
+- Propagação DNS: 5 minutos a 48 horas (geralmente 15-30 min)
+- Render automaticamente provisiona certificado SSL (Let's Encrypt)
+- Após propagação, acesse: `https://jla.avilaops.com`
 
 ---
 
