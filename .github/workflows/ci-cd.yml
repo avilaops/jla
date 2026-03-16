@@ -158,16 +158,24 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Trigger Render Deploy (Backend)
-        if: ${{ secrets.RENDER_DEPLOY_HOOK_API }}
+        continue-on-error: true
         run: |
-          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_API }}
-          echo "✅ Backend deploy triggered"
+          if [ -n "${{ secrets.RENDER_DEPLOY_HOOK_API }}" ]; then
+            curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_API }}"
+            echo "✅ Backend deploy triggered"
+          else
+            echo "⚠️  RENDER_DEPLOY_HOOK_API não configurado - Pule ou configure em Settings > Secrets"
+          fi
 
       - name: Trigger Render Deploy (Frontend)
-        if: ${{ secrets.RENDER_DEPLOY_HOOK_WEB }}
+        continue-on-error: true
         run: |
-          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_WEB }}
-          echo "✅ Frontend deploy triggered"
+          if [ -n "${{ secrets.RENDER_DEPLOY_HOOK_WEB }}" ]; then
+            curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_WEB }}"
+            echo "✅ Frontend deploy triggered"
+          else
+            echo "⚠️  RENDER_DEPLOY_HOOK_WEB não configurado - Pule ou configure em Settings > Secrets"
+          fi
 
       - name: Deployment Summary
         run: |
